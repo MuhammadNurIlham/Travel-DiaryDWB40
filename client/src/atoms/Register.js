@@ -1,13 +1,50 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
+import React, { useState } from 'react';
+import { useMutation } from 'react-query';
+import { API } from '../config/API'
+import { Alert, Button, Form, Modal } from 'react-bootstrap';
 
 function Register({ show, setShow, setShowLogin }) {
     // const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
+
+    const [message, setMessage] = useState(null);
+
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        password: "",
+        phone: "",
+        address: ""
+    });
+
+    const { name, email, password, phone, address } = form;
+
+    const handleOnChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleOnSubmit = useMutation(async (e) => {
+        try {
+            e.preventDefault();
+            const response = await API.post("/register", form);
+            const alert = (
+                <Alert variant="success">Berhasil mendaftarkan akun!</Alert>
+            );
+            setMessage(alert);
+            console.log("", response)
+        } catch (e) {
+            console.log(e);
+            const alert = (
+                <Alert variant="danger">Oopss!! Gagal mendaftarkan akun!</Alert>
+            );
+            setMessage(alert);
+        }
+    })
 
     return (
         <>
@@ -16,7 +53,8 @@ function Register({ show, setShow, setShowLogin }) {
                     <Modal.Title>Register</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
+                    {message && message}
+                    <Form onSubmit={(e) => handleOnSubmit.mutate(e)}>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>Full Name</Form.Label>
                             <Form.Control
@@ -24,17 +62,19 @@ function Register({ show, setShow, setShowLogin }) {
                                 type='text'
                                 placeholder='FullName'
                                 autoFocus
-                                required
+                                value={name}
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
-                                name='email'
-                                type='email'
-                                placeholder='Email'
+                                type="email"
+                                placeholder="Email"
                                 autoFocus
-                                required
+                                value={email}
+                                name="email"
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -43,25 +83,35 @@ function Register({ show, setShow, setShowLogin }) {
                                 name="password"
                                 type="password"
                                 placeholder="Password"
-                                required
+                                value={password}
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>Phone</Form.Label>
                             <Form.Control
-                                name="phone"
                                 type="text"
                                 placeholder="Phone"
-                                required
+                                value={phone}
+                                name="phone"
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
-                        <div className='d-grid gap-2'>
-                            <Button variant="primary" onClick={() => {
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label>Address</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Address"
+                                value={address}
+                                name="address"
+                                onChange={handleOnChange}
+                            />
+                        </Form.Group>
+                        <div className="d-grid gap-2">
+                            <input type={"submit"} value={"Register"} variant="dark" size="md" onClick={() => {
                                 setShow(false);
                                 setShowLogin(true);
-                            }}>
-                                Register
-                            </Button>
+                            }} />
                         </div>
                     </Form>
                 </Modal.Body>

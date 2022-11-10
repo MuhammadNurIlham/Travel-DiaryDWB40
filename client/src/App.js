@@ -8,17 +8,20 @@ import Profile from './pages/Profile';
 import Editor from './components/Editor';
 import Bookmark from "./pages/Bookmark";
 import Home from "./pages/Home";
+import PrivateRoute from "./pages/PrivateRoute";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route exact path="/" element={<LandingPage />} />
-        <Route exact path="/Home" element={<Home />} />
-        <Route exact path="/DetailJourney" element={<DetailJourney />} />
-        <Route exact path="/Bookmark" element={<Bookmark />} />
-        <Route exact path="/Profile" element={<Profile />} />
-        <Route exact path="/Editor" element={<Editor />} />
+        <Route exact path="/" element={<PrivateRoute />}>
+          <Route exact path="/Home" element={<Home />} />
+          <Route exact path="/DetailJourney" element={<DetailJourney />} />
+          <Route exact path="/Bookmark" element={<Bookmark />} />
+          <Route exact path="/Profile" element={<Profile />} />
+          <Route exact path="/Editor" element={<Editor />} />
+        </Route>
       </Routes>
     </div>
   );
