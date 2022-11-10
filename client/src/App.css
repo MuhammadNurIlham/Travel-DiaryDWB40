@@ -1,8 +1,40 @@
 .App {
   text-align: center;
+  /* background: #E5E5E5; */
 }
 
-.App-logo {
+.banner {
+  max-height: 70vh;
+  min-height: 70vh;
+}
+
+.title {
+  /* padding-left: 100px; */
+  font-family: "avenir";
+  color: #FFFFFF;
+}
+.jumbotron-title {
+  font-size: 60px;
+  font-weight: 800;
+  font-style: normal;
+  line-height: 71.81px;
+  letter-spacing: -3%;
+}
+.jumbotron-subtitle {
+  font-weight: 400;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.heading-journey {
+  font-family: "avenir";
+  font-weight: 900;
+  font-size: 45px;
+  line-height: 66px;
+  color: #000000;
+}
+
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -35,4 +67,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

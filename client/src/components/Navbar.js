@@ -21,7 +21,7 @@ function NavigationBar() {
           <Navbar.Brand href="#">
             <img
               src={Icon}
-              width="120"
+              width="160"
               height="45"
               className="d-inline-block align-top"
               alt="React Bootstrap logo"

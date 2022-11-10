@@ -1,11 +1,11 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Jumbotron from './components/Jumbotron';
+import LandingPage from './pages/LandingPage';
 
 function App() {
   return (
     <div className="App">
-      <Jumbotron />
+      <LandingPage />
     </div>
   );
 }
