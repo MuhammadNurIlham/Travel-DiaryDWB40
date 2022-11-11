@@ -16,6 +16,7 @@ import Bookmark from "./pages/Bookmark";
 import Home from "./pages/Home";
 import PrivateRoute from "./pages/PrivateRoute";
 import NavbarAfterLogin from "./components/NavbarAfterLogin";
+import NavigationBar from "./components/Navbar";
 
 function App() {
   let navigate = useNavigate();
@@ -28,7 +29,7 @@ function App() {
       setAuthToken(localStorage.token);
     }
     if (state.isLogin == false && !isLoading) {
-      navigate("/");
+      navigate('/');
     }
   }, [state]);
 
@@ -47,10 +48,15 @@ function App() {
         type: "USER_SUCCESS",
         payload,
       });
-      setIsLoading(false);
+      if (response.data.code === 200) {
+        setIsLoading(false);
+      }
     } catch (error) {
+      if (error.response.data.code === 401) {
+        navigate('/')
+      }
       console.log("ini error check-user auth", error)
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -61,22 +67,21 @@ function App() {
 
   return (
     <>
-      <NavbarAfterLogin />
-      {/* {isLoading ? (<></>) : (
-        <div className="App">
-          <Routes>
-            <Route exact path="/" element={<LandingPage />} />
-            <Route exact path="/" element={<PrivateRoute />}>
-              <Route exact path="/Home" element={<Home />} />
-              <Route exact path="/DetailJourney" element={<DetailJourney />} />
-              <Route exact path="/Bookmark" element={<Bookmark />} />
-              <Route exact path="/Profile" element={<Profile />} />
-              <Route exact path="/Editor" element={<Editor />} />
-            </Route>
-          </Routes>
-        </div>
-      )} */}
+      {isLoading ? (<></>) : (
+        <Routes>
+          <Route exact path="/" element={<LandingPage />} />
+          <Route exact path="/" element={<PrivateRoute />}>
+            <Route exact path="/Home" element={<Home />} />
+            <Route exact path="/Profile" element={<Profile />} />
+            <Route exact path="/DetailJourney" element={<DetailJourney />} />
+            <Route exact path="/Bookmark" element={<Bookmark />} />
+            <Route exact path="/Editor" element={<Editor />} />
+          </Route>
+        </Routes>
+      )}
     </>
+    // <div className="App">
+    // </div>
   );
 }
 

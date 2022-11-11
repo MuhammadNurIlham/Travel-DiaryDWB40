@@ -36,7 +36,7 @@ function Register({ show, setShow, setShowLogin }) {
                 <Alert variant="success">Berhasil mendaftarkan akun!</Alert>
             );
             setMessage(alert);
-            console.log("", response)
+            console.log("ini response submit register", response)
         } catch (e) {
             console.log(e);
             const alert = (

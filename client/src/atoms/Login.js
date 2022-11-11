@@ -36,21 +36,22 @@ function Login({ show, setShow, setShowRegister }) {
             const data = await API.post('/login', form);
             const alert = <Alert variant='success'>Login Berhasil!</Alert>
             setMessage(alert);
+            dispatch({
+                type: "LOGIN_SUCCESS",
+                payload: data.data.data
+            });
+            console.log("ini response statenya", state)
 
-            let payload = data.data.data;
+            // let payload = data.data.data;
             // if (payload.email === "email") {
             //     navigate('/Home')
             // } else {
             //     navigate('/');
             // }
-            // dispatch({
-            //     type: "LOGIN_SUCCESS",
-            //     payload,
-            // });
             handleClose()
             navigate('/Home')
-            console.log("ini response payloadnya", payload);
-            console.log("ini response datanya", data);
+            // console.log("ini response payloadnya", payload);
+            // console.log("ini response datanya", data);
         } catch (e) {
             console.log(e)
             const alert = <Alert variang='danger'>Login Gagal</Alert>

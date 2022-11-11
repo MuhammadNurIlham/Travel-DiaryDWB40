@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -8,6 +8,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Icon from '../assets/Icon.png';
 import Login from '../atoms/Login';
 import Register from '../atoms/Register';
+import { UserContext } from '../context/UserContext';
 
 function NavigationBar() {
   const [showLogin, setShowLogin] = useState(false);
