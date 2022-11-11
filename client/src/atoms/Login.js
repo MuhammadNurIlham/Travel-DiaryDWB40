@@ -26,6 +26,7 @@ function Login({ show, setShow, setShowRegister }) {
             [e.target.name]: e.target.value,
         });
     }
+    console.log(form);
 
     const navigate = useNavigate();
 
@@ -37,17 +38,17 @@ function Login({ show, setShow, setShowRegister }) {
             setMessage(alert);
 
             let payload = data.data.data;
-            if (payload.email == "token") {
-                navigate('/Home')
-            } else {
-                navigate('/');
-            }
-            dispatch({
-                type: "LOGIN_SUCCESS",
-                payload,
-            });
+            // if (payload.email === "email") {
+            //     navigate('/Home')
+            // } else {
+            //     navigate('/');
+            // }
+            // dispatch({
+            //     type: "LOGIN_SUCCESS",
+            //     payload,
+            // });
             handleClose()
-
+            navigate('/Home')
             console.log("ini response payloadnya", payload);
             console.log("ini response datanya", data);
         } catch (e) {
