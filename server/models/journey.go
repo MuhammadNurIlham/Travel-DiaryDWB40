@@ -7,6 +7,7 @@ type Journey struct {
 	Description string        `json:"description" form:"description" gorm:"type: varchar(255)"`
 	Image       string        `json:"image" form:"image" gorm:"type: varchar(255)"`
 	UserID      int           `json:"user_id" form:"user_id"`
+	Bookmark []BookmarkResponse `json:"bookmark" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 type JourneyResponse struct {

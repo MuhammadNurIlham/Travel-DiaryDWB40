@@ -21,7 +21,7 @@ func RepositoryJourney(db *gorm.DB) *repository {
 
 func (r *repository) FindJourneys() ([]models.Journey, error) {
 	var journeys []models.Journey
-	err := r.db.Preload("User").Find(&journeys).Error
+	err := r.db.Preload("User").Preload("Bookmark.Journey.User").Preload("Bookmark.User").Find(&journeys).Error
 
 	return journeys, err
 }
@@ -42,17 +42,23 @@ func (r *repository) FindJourneys() ([]models.Journey, error) {
 
 func (r *repository) GetJourney(ID int) (models.Journey, error) {
 	var journey models.Journey
-	err := r.db.Preload("User").First(&journey, ID).Error
+	err := r.db.Preload("User").Preload("Bookmark.Journey.User").Preload("Bookmark.User").First(&journey, ID).Error
 	return journey, err
 }
 
 func (r *repository) CreateJourney(journey models.Journey) (models.Journey, error) {
-	err := r.db.Create(&journey).Error
+	err := r.db.Preload("User").Preload("Bookmark.Journey.User").Preload("Bookmark.User").Create(&journey).Error
+
+	return journey, err
+}
+
+func (r *repository) UpdateJourney(journey models.Journey) (models.Journey, error) {
+	err := r.db.Preload("User").Save(&journey).Error
 
 	return journey, err
 }
 
 func (r *repository) DeleteJourney(journey models.Journey) (models.Journey, error) {
-	err := r.db.Delete(&journey).Error
+	err := r.db.Preload("User").Delete(&journey).Error
 	return journey, err
 }
