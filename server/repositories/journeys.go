@@ -9,7 +9,8 @@ import (
 type JourneyRepository interface {
 	FindJourneys() ([]models.Journey, error)
 	GetJourney(ID int) (models.Journey, error)
-	GetJourneyUser(UserID int) ([]models.Journey, error)
+	// GetJourney(ID int) (models.Journey, error)
+	// GetJourneyUser(UserID int) ([]models.Journey, error)
 	CreateJourney(journey models.Journey) (models.Journey, error)
 	DeleteJourney(journey models.Journey) (models.Journey, error)
 }
@@ -25,17 +26,23 @@ func (r *repository) FindJourneys() ([]models.Journey, error) {
 	return journeys, err
 }
 
-func (r *repository) GetJourneyUser(UserID int) ([]models.Journey, error) {
-	var journey []models.Journey
-	err := r.db.Where("user_id=?", UserID).Preload("User").Find(&journey).Error
+// func (r *repository) GetJourneyUser(UserID int) ([]models.Journey, error) {
+// 	var journey []models.Journey
+// 	err := r.db.Where("user_id=?", UserID).Preload("User").Find(&journey).Error
 
-	return journey, err
-}
+// 	return journey, err
+// }
+
+// func (r *repository) GetJourney(ID int) (models.Journey, error) {
+// 	var journey models.Journey
+// 	err := r.db.Preload("User").First(&journey, ID).Error
+
+// 	return journey, err
+// }
 
 func (r *repository) GetJourney(ID int) (models.Journey, error) {
 	var journey models.Journey
 	err := r.db.Preload("User").First(&journey, ID).Error
-
 	return journey, err
 }
 

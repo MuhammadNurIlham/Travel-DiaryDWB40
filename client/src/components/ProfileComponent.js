@@ -1,7 +1,21 @@
-import React from 'react'
-import julian from '../assets/julian.jpg'
+import React, { useContext } from 'react'
+import { useQuery } from 'react-query';
+import { UserContext } from '../context/UserContext';
+import { API } from '../config/API';
+
+   
+import julian from '../assets/julian.jpg';
 
 function ProfileComponent() {
+    const [state, dispatch] = useContext(UserContext);
+    let { data: journeys } = useQuery("journeysCache", async () => {
+        const response = await API.get("/journeys");
+        const responseProfile = response.data.data.filter((resP) => resP.user.id == state.user.id);
+        return responseProfile;
+    });
+    console.log(state);
+
+
     return (
         <div className='container'>
             <h2 className='text-start py-4 heading-journey'>Profile</h2>
@@ -15,9 +29,9 @@ function ProfileComponent() {
                     objectFit: "cover",
                     marginBottom: "10px",
                 }} />
-            <p className="profile-title">Namanya Fadhil</p>
-            <p className="profile-subtitle">fadhil@mail.com</p>
-        </div>
+            <p className="profile-title">{""}{state?.user?.name}{""}</p>
+            <p className="profile-subtitle">{state?.user?.email}</p>
+        </div >
     )
 }
 

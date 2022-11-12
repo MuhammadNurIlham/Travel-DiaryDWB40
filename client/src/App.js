@@ -56,7 +56,7 @@ function App() {
         navigate('/')
       }
       console.log("ini error check-user auth", error)
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -67,13 +67,14 @@ function App() {
 
   return (
     <>
-      {isLoading ? (<></>) : (
+      {isLoading ? (<div>Load Data from Database</div>) : (
         <Routes>
           <Route exact path="/" element={<LandingPage />} />
           <Route exact path="/" element={<PrivateRoute />}>
             <Route exact path="/Home" element={<Home />} />
             <Route exact path="/Profile" element={<Profile />} />
-            <Route exact path="/DetailJourney" element={<DetailJourney />} />
+            <Route exact path="/DetailJourney/:id" element={<DetailJourney />} />
+            {/* <Route exact path="/DetailJourney" element={<DetailJourney />} /> */}
             <Route exact path="/Bookmark" element={<Bookmark />} />
             <Route exact path="/Editor" element={<Editor />} />
           </Route>

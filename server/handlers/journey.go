@@ -44,24 +44,49 @@ func (h *handlerJourney) FindJourneys(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// get journey by user id
+// func (h *handlerJourney) GetJourneyUser(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "application/json")
+
+// 	user_id, _ := strconv.Atoi(mux.Vars(r)["user_id"])
+
+// 	var journey []models.Journey
+// 	journey, err := h.JourneyRepository.GetJourneyUser(user_id)
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusInternalServerError)
+// 		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
+// 		json.NewEncoder(w).Encode(response)
+// 		return
+// 	}
+
+// 	// Create Embed Path File on Image property here ...
+// 	for i, p := range journey {
+// 		journey[i].Image = os.Getenv("PATH_FILE") + p.Image
+// 	}
+
+// 	w.WriteHeader(http.StatusOK)
+// 	response := dto.SuccessResult{Code: http.StatusOK, Data: journey}
+// 	json.NewEncoder(w).Encode(response)
+// }
+
+// get journey by id journey
 func (h *handlerJourney) GetJourney(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	user_id, _ := strconv.Atoi(mux.Vars(r)["user_id"])
+	id, _ := strconv.Atoi(mux.Vars(r)["id"])
 
-	var journey []models.Journey
-	journey, err := h.JourneyRepository.GetJourneyUser(user_id)
+	journey, err := h.JourneyRepository.GetJourney(id)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
 		json.NewEncoder(w).Encode(response)
 		return
 	}
+	// for i, p := range journeys {
+	// 	journeys[i].Image = os.Getenv("PATH_FILE") + p.Image
+	// }
 
-	// Create Embed Path File on Image property here ...
-	for i, p := range journey {
-		journey[i].Image = os.Getenv("PATH_FILE") + p.Image
-	}
+	journey.Image = os.Getenv("PATH_FILE") + journey.Image
 
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: journey}

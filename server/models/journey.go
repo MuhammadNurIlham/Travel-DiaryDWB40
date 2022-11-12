@@ -11,11 +11,11 @@ type Journey struct {
 
 type JourneyResponse struct {
 	ID          int           `json:"id"`
+	UserID      int           `json:"-"`
+	User        UsersResponse `json:"user"`
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
 	Image       string        `json:"image"`
-	UserID      int           `json:"-"`
-	User        UsersResponse `json:"user"`
 }
 
 type JourneyUserResponse struct {
