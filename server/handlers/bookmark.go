@@ -56,7 +56,7 @@ func (h *handlerBookmark) GetBookmark(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *handlerBookmark) CreateBookmark(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 
 	userInfo := r.Context().Value("userInfo").(jwt.MapClaims)
 	userId := int(userInfo["id"].(float64))
