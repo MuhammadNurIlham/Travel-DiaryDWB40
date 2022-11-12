@@ -6,12 +6,12 @@ import NavbarAfterLogin from '../components/NavbarAfterLogin';
 import { API } from '../config/API';
 
 function DetailJourney() {
-    // const id = state.;
-    let { data: journeys } = useQuery("journeysCache", async () => {
+    const { id } = useParams()
+    let { data: journey } = useQuery("journeyCache", async () => {
         const response = await API.get('/journey/' + id);
         return response.data.data;
     });
-    console.log(journeys);
+    console.log(journey);
     console.log(id);
 
 
@@ -23,10 +23,10 @@ function DetailJourney() {
                     <div className='col'>
                         <div className="d-flex align-items-center">
                             <div>
-                                <h2>{journeys?.title}</h2>
+                                <h2>{journey?.title}</h2>
                             </div>
                             <div className="ms-auto align-items-center">
-                                <p className='fw-bold'>{journeys?.user?.name}</p>
+                                <p className='fw-bold'>{journey?.user?.name}</p>
                             </div>
                         </div>
                     </div>
@@ -37,9 +37,9 @@ function DetailJourney() {
                     </div>
                 </div>
                 <div className='row'>
-                    <img src={journeys?.image} className="img-fluid" alt="yolooo" />
+                    <img src={journey?.image} className="img-fluid" alt="yolooo" />
                     <div className='d-flex align-items-start py-5'>
-                        <p className='text-start'>{journeys?.description}</p>
+                        <p className='text-start'>{journey?.description}</p>
                     </div>
                 </div>
             </div>

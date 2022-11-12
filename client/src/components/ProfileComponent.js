@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { UserContext } from '../context/UserContext';
 import { API } from '../config/API';
 
-   
+
 import julian from '../assets/julian.jpg';
 
 function ProfileComponent() {
@@ -24,13 +24,14 @@ function ProfileComponent() {
                 className="rounded-circle mx-auto d-block"
                 alt="..."
                 style={{
-                    maxWidth: "200px",
-                    maxHeight: "200px",
+                    maxWidth: "150px",
+                    maxHeight: "150px",
                     objectFit: "cover",
                     marginBottom: "10px",
                 }} />
-            <p className="profile-title">{""}{state?.user?.name}{""}</p>
-            <p className="profile-subtitle">{state?.user?.email}</p>
+            <p className="profile-title text-center">{""}{state?.user?.name}{""}</p>
+            <p className="profile-subtitle text-center">{state?.user?.email}</p>
+            <hr></hr>
         </div >
     )
 }
