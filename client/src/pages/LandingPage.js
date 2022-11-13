@@ -7,7 +7,10 @@ function LandingPage() {
     return (
         <div>
             <Jumbotron />
-            <Search />
+            {/* <Search /> */}
+            <div className='container'>
+                <h2 className='text-start py-4 heading-journey'>Journey</h2>
+            </div>
             <CardJourney />
         </div>
     )

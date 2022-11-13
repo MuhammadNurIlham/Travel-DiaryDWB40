@@ -77,12 +77,13 @@ function Bookmark() {
                         return (
                             <div className="col pt-4" key={index}>
                                 <div className="card h-100">
-                                    <img src={bookmark.journey.image} className="card-img-top" alt="..." />
+                                    <img src={"http://localhost:5000/uploads/" + bookmark?.journey.image} className="card-img-top" alt="..." />
                                     <div className="card-body">
                                         {isLogin ? (
                                             <div className='d-flex pb-3 ms-auto'>
-                                                <span className='pe-1'><FaRegHeart /></span>
-                                                <span className='pe-1' onClick={(e) => {
+                                                {/* <span className='pe-1'><FaRegHeart /></span> */}
+                                                <p className="card-text">{bookmark.journey.user.name}</p>
+                                                <span className='pe-1 ms-auto' onClick={(e) => {
                                                     Swal.fire({
                                                         title: 'Do you want to delete this journey from bookmark?',
                                                         showDenyButton: true,
@@ -96,7 +97,7 @@ function Bookmark() {
                                                                 icon: "success",
                                                                 title: "Delete Success!",
                                                                 showConfirmButton: true,
-                                                                onClick: handleDelete(e, Bookmark.ID),
+                                                                onClick: handleDelete(e, bookmark.id),
                                                             });
                                                         } else if (result.isDenied) {
                                                             Swal.fire('Journey are not delete', '', 'info')
@@ -117,7 +118,7 @@ function Bookmark() {
                                                         title: 'Oops...',
                                                         text: 'Anda Belum Login, Silahkan Login!',
                                                     })
-                                                }}><FaRegBookmark /></span>
+                                                }}><FaBookmark /></span>
                                                 {/* <Link to="/Bookmark">
                                         </Link> */}
                                                 {/* <span className='pe-1'><FaHeart /></span>
@@ -125,7 +126,6 @@ function Bookmark() {
                                             </div>
                                         )}
                                         <h5 className="card-title" onClick={() => { navigate(`/DetailJourney/${bookmark.journey.id}`) }} key={index}>{bookmark.journey.title.slice(0, 20)} ..</h5>
-                                        <p className="card-text">{bookmark.journey.user.name}</p>
                                         {/* <div className='d-flex'>
                                     </div> */}
                                         <p className="card-text text-justify">{bookmark.journey.description.slice(0, 120)} ...</p>

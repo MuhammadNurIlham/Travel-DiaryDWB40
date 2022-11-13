@@ -18,6 +18,8 @@ function CardJourney() {
     const isLogin = state.isLogin;
     console.log("state buat bookmark euy", state);
 
+    const [search, setSearch] = useState("")
+
     let { data: journeys } = useQuery("journeysCache", async () => {
         const response = await API.get("/journeys");
         console.log("ini response journeys", response)
@@ -50,17 +52,38 @@ function CardJourney() {
 
     return (
         <div className='container'>
+            <form className="d-flex pb-3" role="search">
+                <input
+                    className="form-control me-2"
+                    type="search"
+                    placeholder="Find Journey"
+                    aria-label="Search"
+                    onChange={(e) => setSearch(e.target.value)} />
+                <button className="btn btn-primary" type="submit">Search</button>
+            </form>
             {journeys?.length !== 0 ? (
                 <div className="row row-cols-1 row-cols-md-4 g-4">
-                    {journeys?.map((journey, index) => (
+                    {journeys?.filter((item) => {
+                        return search.toLowerCase() === "" ? item : item.title.toLowerCase().includes(search)
+                    }).map((journey, index) => (
                         <div className="col pt-4" key={index}>
                             <div className="card h-100">
-                                <img src={journey?.image} className="card-img-top" alt="..." />
+                                <img
+                                    src={journey?.image}
+                                    className="card-img-top"
+                                    alt="..."
+                                    style={{
+                                        maxHeight: "50%",
+                                        minHeight: "50%",
+                                        objectFit: "cover",
+                                    }}
+                                />
                                 <div className="card-body">
                                     {isLogin ? (
                                         <div className='d-flex pb-3'>
-                                            <span className='pe-1'><FaRegHeart /></span>
-                                            <span className='pe-1' onClick={(e) => {
+                                            <p className="card-text">{journey?.user.name}</p>
+                                            {/* <span className='pe-1'><FaRegHeart /></span> */}
+                                            <span className='pe-1 ms-auto' onClick={(e) => {
                                                 Swal.fire({
                                                     title: 'Do you want to save this journey?',
                                                     showDenyButton: true,
@@ -102,10 +125,10 @@ function CardJourney() {
                                         <span><FaBookmark /></span> */}
                                         </div>
                                     )}
-                                    <h5 className="card-title" onClick={() => { navigate(`/DetailJourney/${journey?.id}`) }} key={index}>{journey?.title}</h5>
+                                    <h5 className="card-title" onClick={() => { navigate(`/DetailJourney/${journey?.id}`) }} key={index}>{journey?.title.slice(0, 20)} ...</h5>
                                     {/* <div className='d-flex'>
                                     </div> */}
-                                    <p className="card-text">{journey?.description}</p>
+                                    <p className="card-text">{journey?.description.slice(0, 145)} ...</p>
                                 </div>
                             </div>
                         </div>

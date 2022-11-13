@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import partner from '../assets/partner.png';
+import profile from '../assets/users.png'
 import { UserContext } from '../context/UserContext';
 
 function DropdownNavbar() {
@@ -23,7 +24,8 @@ function DropdownNavbar() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item>
+                    <Dropdown.Item >
+                        <img src={profile} alt=""/>
                         <Link to="/Profile">
                             {/* <img src={partner} alt="user" /> */}
                             Profile

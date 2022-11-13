@@ -13,7 +13,7 @@ func JourneyRoutes(r *mux.Router) {
 	journeyRepository := repositories.RepositoryJourney(mysql.DB)
 	h := handlers.HandlerJourney(journeyRepository)
 
-	r.HandleFunc("/journeys", middleware.Auth(h.FindJourneys)).Methods("GET")
+	r.HandleFunc("/journeys", h.FindJourneys).Methods("GET")
 	// r.HandleFunc("/journeys/{user_id}", h.GetJourney).Methods("GET") // for get journey base on user id
 	r.HandleFunc("/journey/{id}", h.GetJourney).Methods("GET") // for get journey base on id journey
 	r.HandleFunc("/journey", middleware.Auth(middleware.UploadFile(h.CreateJourney))).Methods("POST")

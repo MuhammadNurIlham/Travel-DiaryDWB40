@@ -8,7 +8,8 @@ function Home() {
         <div>
             <NavbarAfterLogin />
             <div className='container'>
-                <Search />
+                <h2 className='text-start py-4 heading-journey'>Journey</h2>
+                {/* <Search /> */}
                 <CardJourney />
             </div>
         </div>
