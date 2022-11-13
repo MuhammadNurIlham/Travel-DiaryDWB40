@@ -6,6 +6,7 @@ import NavbarAfterLogin from '../components/NavbarAfterLogin';
 import { UserContext } from '../context/UserContext';
 import Swal from 'sweetalert2';
 import { API } from "../config/API";
+import moment from "moment"
 import { FaBookmark } from "react-icons/fa"
 import { FaRegBookmark } from "react-icons/fa"
 import { FaHeart } from "react-icons/fa"
@@ -89,12 +90,11 @@ function Bookmark() {
                                         {isLogin ? (
                                             <div className='d-flex pb-3 ms-auto'>
                                                 {/* <span className='pe-1'><FaRegHeart /></span> */}
-                                                <p className="card-text">{bookmark.journey.user.name}</p>
-                                                <span className='pe-1 ms-auto' onClick={(e) => {
+                                                <p className="card-text fw-bold">{bookmark.journey.user.name}</p>
+                                                <span className='pe-1 ms-auto cursor-pointer' onClick={(e) => {
                                                     Swal.fire({
                                                         title: 'Do you want to delete this journey from bookmark?',
                                                         showDenyButton: true,
-                                                        showCancelButton: true,
                                                         confirmButtonText: 'Delete',
                                                         denyButtonText: `Cancel`,
                                                     }).then((result) => {
@@ -110,7 +110,7 @@ function Bookmark() {
                                                             Swal.fire('Journey are not delete', '', 'info')
                                                         }
                                                     })
-                                                }}><FaRegBookmark /></span>
+                                                }}><FaBookmark /></span>
                                                 {/* <Link to="/Bookmark">
                                         </Link> */}
                                                 {/* <span className='pe-1'><FaHeart /></span>
@@ -118,7 +118,7 @@ function Bookmark() {
                                             </div>
                                         ) : (
                                             <div className='d-flex pb-3'>
-                                                <span className='pe-1'><FaRegHeart /></span>
+                                                {/* <span className='pe-1'><FaRegHeart /></span> */}
                                                 <span className='pe-1' onClick={(e) => {
                                                     Swal.fire({
                                                         icon: 'error',
@@ -132,10 +132,18 @@ function Bookmark() {
                                         <span><FaBookmark /></span> */}
                                             </div>
                                         )}
-                                        <h5 className="card-title" onClick={() => { navigate(`/DetailJourney/${bookmark.journey.id}`) }} key={index}>{bookmark.journey.title.slice(0, 20)} ..</h5>
+                                        <h6 className="card-title cursor-pointer" onClick={() => { navigate(`/DetailJourney/${bookmark.journey.id}`) }} key={index}>{bookmark.journey.title.slice(0, 20)} ..</h6>
+                                        <p
+                                            className="text-muted"
+                                            style={{ fontSize: "12px" }}
+                                        >
+                                            {moment(bookmark.journey.created_at).format(
+                                                "dddd, DD MMMM YYYY"
+                                            )}
+                                        </p>
                                         {/* <div className='d-flex'>
                                     </div> */}
-                                        <p className="card-text text-justify">{bookmark.journey.description.slice(0, 120)} ...</p>
+                                        <p className="card-text text-justify cursor-pointer" onClick={() => { navigate(`/DetailJourney/${bookmark.journey.id}`) }} key={index}>{bookmark.journey.description.slice(0, 120)} ...</p>
                                     </div>
                                 </div>
                             </div>

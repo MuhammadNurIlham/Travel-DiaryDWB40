@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt/v4"
@@ -107,6 +108,7 @@ func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 	request := journeydto.JourneyRequest{
 		Title:       r.FormValue("title"),
 		Description: r.FormValue("description"),
+		UserID:      userId,
 	}
 
 	// request := new(journeydto.JourneyRequest)
@@ -126,11 +128,27 @@ func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Declare Context Background, Cloud Name, API Key, API Secret
+	// var ctx = context.Background()
+	// var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+	// var API_KEY = os.Getenv("API_KEY")
+	// var API_SECRET = os.Getenv("API_SECRET")
+
+	// Add Cloudinary credentials
+	// cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+
+	// Upload file to Cloudinary
+	// resp, err := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "thejourney"});
+
+	CreatedAt := time.Now()
+
 	journey := models.Journey{
 		Title:       request.Title,
 		Description: request.Description,
 		Image:       filename,
-		UserID:      userId,
+		// Image:       resp.SecureURL,
+		CreatedAt: CreatedAt,
+		UserID:    userId,
 	}
 
 	journey, err = h.JourneyRepository.CreateJourney(journey)
@@ -148,6 +166,77 @@ func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 	response := dto.SuccessResult{Code: http.StatusOK, Data: journey}
 	json.NewEncoder(w).Encode(response)
 }
+
+// func (h *handlerJourney) UpdateJourney(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "application/json")
+
+// 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
+
+// 	dataContext := r.Context().Value("dataFile")
+// 	filepath := dataContext.(string)
+
+// 	request := journeydto.UpdateJourneyRequest{
+// 		Title:       r.FormValue("title"),
+// 		Description: r.FormValue("description"),
+// 	}
+
+// 	validation := validator.New()
+// 	err := validation.Struct(request)
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
+// 		json.NewEncoder(w).Encode(response)
+// 		return
+// 	}
+
+// 	// Declare Context Background, Cloud Name, API Key, API Secret ...
+// 	var ctx = context.Background()
+// 	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+// 	var API_KEY = os.Getenv("API_KEY")
+// 	var API_SECRET = os.Getenv("API_SECRET")
+
+// 	// Add your Cloudinary credentials ...
+// 	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+
+// 	// Upload file to Cloudinary ...
+// 	resp, err := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "thejourney"})
+
+// 	if err != nil {
+// 		fmt.Println(err.Error())
+// 	}
+
+// 	UpdatedAt := time.Now()
+
+// 	journey, _ := h.JourneyRepository.GetJourney(int(id))
+
+// 	// journey.Title = request.Title
+// 	// journey.UserID = request.UserID
+// 	// journey.Image = request.Image
+// 	// journey.Description = request.Description
+// 	journey.UpdatedAt = UpdatedAt
+
+// 	if request.Title != "" {
+// 		journey.Title = request.Title
+// 	}
+// 	if filepath != "false" {
+// 		journey.Image = resp.SecureURL
+// 	}
+// 	if request.Description != "" {
+// 		journey.Description = request.Description
+// 	}
+
+// 	data, err := h.JourneyRepository.UpdateJourney(journey)
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusInternalServerError)
+// 		response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}
+// 		json.NewEncoder(w).Encode(response)
+// 		return
+// 	}
+
+// 	w.WriteHeader(http.StatusOK)
+// 	response := dto.SuccessResult{Code: http.StatusOK, Data: convertResponseJourney(data)}
+// 	json.NewEncoder(w).Encode(response)
+// }
 
 func (h *handlerJourney) DeleteJourney(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -176,8 +265,13 @@ func (h *handlerJourney) DeleteJourney(w http.ResponseWriter, r *http.Request) {
 
 func convertResponseJourney(u models.Journey) models.JourneyResponse {
 	return models.JourneyResponse{
+		ID:          u.ID,
 		Title:       u.Title,
 		Description: u.Description,
 		Image:       u.Image,
+		UserID:      u.UserID,
+		User:        u.User,
+		CreatedAt:   u.CreatedAt,
+		UpdatedAt:   u.UpdatedAt,
 	}
 }

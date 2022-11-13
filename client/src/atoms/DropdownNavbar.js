@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
+import Swal from "sweetalert2"
 
 
 import partner from '../assets/partner.png';
@@ -19,7 +20,6 @@ function DropdownNavbar() {
             type: "LOGOUT",
             isLogin: false
         });
-        return alert('Anda berhasil Logout euyy!')
     }
 
     return (
@@ -43,7 +43,26 @@ function DropdownNavbar() {
                         Bookmark
                     </Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => logout()}>
+                    <Dropdown.Item onClick={() => {
+                        Swal.fire({
+                            title: 'Apakah anda yakin ingin Logout?',
+                            showDenyButton: true,
+                            confirmButtonText: 'Logout',
+                            denyButtonText: `Gak jadi`,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Okey sudah logout!",
+                                    showConfirmButton: true,
+                                    onClick: logout(),
+                                });
+                            } else if (result.isDenied) {
+                                Swal.fire('Gak Jadi Keluar? Okeeee', '', 'info')
+                            }
+                        })
+                    }}>
                         <img src={Logout} alt="" className='pe-2' />
                         Logout
                     </Dropdown.Item>
@@ -53,4 +72,4 @@ function DropdownNavbar() {
     )
 }
 
-export default DropdownNavbar
+export default DropdownNavbar;

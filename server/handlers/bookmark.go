@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/gorilla/mux"
@@ -70,9 +71,12 @@ func (h *handlerBookmark) CreateBookmark(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	CreatedAt := time.Now()
+
 	bookmark := models.Bookmark{
 		UserID:    userId,
 		JourneyID: request.JourneyID,
+		CreatedAt: CreatedAt,
 	}
 
 	data, err := h.BookmarkRepository.CreateBookmark(bookmark)
@@ -121,5 +125,6 @@ func convertResponseBookmark(u models.Bookmark) models.Bookmark {
 		User:      u.User,
 		JourneyID: u.JourneyID,
 		Journey:   u.Journey,
+		CreatedAt: u.CreatedAt,
 	}
 }

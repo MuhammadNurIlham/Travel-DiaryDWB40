@@ -2,14 +2,15 @@ import React, { useContext, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { API } from '../config/API';
+import { UserContext } from '../context/UserContext';
 import Swal from 'sweetalert2';
-import { FaBookmark } from "react-icons/fa"
+import moment from "moment"
 import { FaRegBookmark } from "react-icons/fa"
-import { FaHeart } from "react-icons/fa"
 import { FaRegHeart } from "react-icons/fa"
+import { FaBookmark } from "react-icons/fa"
+import { FaHeart } from "react-icons/fa"
 
 import image1 from '../assets/image1.png'
-import { UserContext } from '../context/UserContext';
 
 function CardJourney() {
     let navigate = useNavigate();
@@ -28,7 +29,7 @@ function CardJourney() {
         return response.data.data
     })
 
-    console.log(journeys);
+    console.log("Rizal Error", journeys);
 
     const handleOnBookmark = async (e, journeyID) => {
         e.preventDefault();
@@ -83,9 +84,9 @@ function CardJourney() {
                                 <div className="card-body">
                                     {isLogin ? (
                                         <div className='d-flex pb-3'>
-                                            <p className="card-text">{journey?.user.name}</p>
+                                            <p className="card-text fw-bold">{journey.user.name}</p>
                                             {/* <span className='pe-1'><FaRegHeart /></span> */}
-                                            <span className='pe-1 ms-auto' onClick={(e) => {
+                                            <span className='pe-1 ms-auto cursor-pointer' onClick={(e) => {
                                                 Swal.fire({
                                                     title: 'Do you want to save this journey?',
                                                     showDenyButton: true,
@@ -113,8 +114,9 @@ function CardJourney() {
                                         </div>
                                     ) : (
                                         <div className='d-flex pb-3'>
-                                            <span className='pe-1'><FaRegHeart /></span>
-                                            <span className='pe-1' onClick={(e) => {
+                                            {/* <span className='pe-1'><FaRegHeart /></span> */}
+                                            <p className="card-text fw-bold">{journey.user.name}</p>
+                                            <span className='pe-1 ms-auto cursor-pointer' onClick={(e) => {
                                                 Swal.fire({
                                                     icon: 'error',
                                                     title: 'Oops...',
@@ -127,10 +129,18 @@ function CardJourney() {
                                         <span><FaBookmark /></span> */}
                                         </div>
                                     )}
-                                    <h5 className="card-title" onClick={() => { navigate(`/DetailJourney/${journey?.id}`) }} key={index}>{journey?.title.slice(0, 20)} ...</h5>
+                                    <h6 className="card-title cursor-pointer" onClick={() => { navigate(`/DetailJourney/${journey?.id}`) }} key={index}>{journey?.title.slice(0, 20)} ...</h6>
+                                    <p
+                                        className="text-muted"
+                                        style={{ fontSize: "12px" }}
+                                    >
+                                        {moment(journey.created_at).format(
+                                            "dddd, DD MMMM YYYY"
+                                        )}
+                                    </p>
                                     {/* <div className='d-flex'>
                                     </div> */}
-                                    <p className="card-text">{journey?.description.slice(0, 145)} ...</p>
+                                    <p className="card-text cursor-pointer" onClick={() => { navigate(`/DetailJourney/${journey?.id}`) }} key={index}>{journey?.description.slice(0, 145)} ...</p>
                                 </div>
                             </div>
                         </div>

@@ -13,8 +13,8 @@ func BookmarkRoutes(r *mux.Router) {
 	bookmarkRepository := repositories.RepositoryBookmark(mysql.DB)
 	h := handlers.HandlerBookmark(bookmarkRepository)
 
-	r.HandleFunc("/bookmarks", h.FindBookmarks).Methods("GET")
-	r.HandleFunc("/bookmark/{id}", h.GetBookmark).Methods("GET")
-	r.HandleFunc("/bookmark", middleware.Auth(h.CreateBookmark)).Methods("POST")
-	r.HandleFunc("/bookmark/{id}", middleware.Auth(h.DeleteBookmark)).Methods("DELETE")
+	r.HandleFunc("/bookmarks", h.FindBookmarks).Methods("GET") //getAll
+	r.HandleFunc("/bookmark/{id}", h.GetBookmark).Methods("GET") //select
+	r.HandleFunc("/bookmark", middleware.Auth(h.CreateBookmark)).Methods("POST") //all
+	r.HandleFunc("/bookmark/{id}", middleware.Auth(h.DeleteBookmark)).Methods("DELETE") //delete select
 }
