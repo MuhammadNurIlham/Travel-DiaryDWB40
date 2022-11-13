@@ -77,7 +77,14 @@ function Bookmark() {
                         return (
                             <div className="col pt-4" key={index}>
                                 <div className="card h-100">
-                                    <img src={"http://localhost:5000/uploads/" + bookmark?.journey.image} className="card-img-top" alt="..." />
+                                    <img src={"http://localhost:5000/uploads/" + bookmark?.journey.image}
+                                        className="card-img-top"
+                                        alt="..."
+                                        style={{
+                                            maxHeight: "50%",
+                                            minHeight: "50%",
+                                            objectFit: "cover",
+                                        }} />
                                     <div className="card-body">
                                         {isLogin ? (
                                             <div className='d-flex pb-3 ms-auto'>

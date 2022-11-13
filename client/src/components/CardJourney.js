@@ -28,6 +28,8 @@ function CardJourney() {
         return response.data.data
     })
 
+    console.log(journeys);
+
     const handleOnBookmark = async (e, journeyID) => {
         e.preventDefault();
         try {
