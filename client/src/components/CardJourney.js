@@ -14,44 +14,50 @@ import image1 from '../assets/image1.png'
 
 function CardJourney() {
     let navigate = useNavigate();
+    const [search, setSearch] = useState("")
 
     const [state] = useContext(UserContext);
     const isLogin = state.isLogin;
-    console.log("state buat bookmark euy", state);
 
-    const [search, setSearch] = useState("")
 
-    let { data: journeys } = useQuery("journeysCache", async () => {
+    let { data: journeys, refetch: yukRefetch } = useQuery("journeysCache", async () => {
         const response = await API.get("/journeys");
-        console.log("ini response journeys", response)
-        const resultResponse = response.data.data;
-        console.log("ini result response", resultResponse)
         return response.data.data
     })
-
-    console.log("Rizal Error", journeys);
 
     const handleOnBookmark = async (e, journeyID) => {
         e.preventDefault();
         try {
-            console.log("mau bookmark yang ini :", state.user.id)
-
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${localStorage.token}`,
-                },
-            };
-            console.log("data check journey", journeyID, state.user.id);
-
             const response = await API.post("/bookmark", {
                 journey_id: parseInt(journeyID),
                 user_id: parseInt(state.user.id),
-            }, config);
-            console.log("response post bookmark euy", response)
+            });
+
+            const response2 = await API.patch('/journey/' + journeyID, {
+                "books": "true"
+            })
+            yukRefetch();
         } catch (error) {
             console.log("ini error di post bookmark", error)
         }
     }
+
+    const handleDelete = async (e, journeyID) => {
+        e.preventDefault();
+        try {
+            const response = await API.delete(`/bookmarks/${journeyID}`);
+            console.log("ini response delete ygy", response);
+
+            const response2 = await API.patch('/journey/' + journeyID, {
+                "books": "false"
+            })
+            yukRefetch();
+            console.log(response2)
+            // navigate('/Bookmark')
+        } catch (error) {
+            console.log("waduh deletenya error", error);
+        }
+    };
 
     return (
         <div className='container'>
@@ -86,31 +92,49 @@ function CardJourney() {
                                         <div className='d-flex pb-3'>
                                             <p className="card-text fw-bold">{journey.user.name}</p>
                                             {/* <span className='pe-1'><FaRegHeart /></span> */}
-                                            <span className='pe-1 ms-auto cursor-pointer' onClick={(e) => {
-                                                Swal.fire({
-                                                    title: 'Do you want to save this journey?',
-                                                    showDenyButton: true,
-                                                    showCancelButton: true,
-                                                    confirmButtonText: 'Save',
-                                                    denyButtonText: `Don't save`,
-                                                }).then((result) => {
-                                                    /* Read more about isConfirmed, isDenied below */
-                                                    if (result.isConfirmed) {
-                                                        Swal.fire({
-                                                            icon: "success",
-                                                            title: "Success!",
-                                                            showConfirmButton: true,
-                                                            onClick: handleOnBookmark(e, journey.id),
-                                                        });
-                                                    } else if (result.isDenied) {
-                                                        Swal.fire('Journey are not saved', '', 'info')
-                                                    }
-                                                })
-                                            }}><FaRegBookmark /></span>
-                                            {/* <Link to="/Bookmark">
-                                        </Link> */}
-                                            {/* <span className='pe-1'><FaHeart /></span>
-                                        <span><FaBookmark /></span> */}
+                                            {journey.books == "true" ? (
+                                                <span className='pe-1 ms-auto cursor-pointer' onClick={(e) => {
+                                                    Swal.fire({
+                                                        title: 'Do you want to unbookmark this journey?',
+                                                        showDenyButton: true,
+                                                        confirmButtonText: 'Save',
+                                                        denyButtonText: `Don't save`,
+                                                    }).then((result) => {
+                                                        /* Read more about isConfirmed, isDenied below */
+                                                        if (result.isConfirmed) {
+                                                            Swal.fire({
+                                                                icon: "success",
+                                                                title: "Success!",
+                                                                showConfirmButton: true,
+                                                                onClick: handleDelete(e, journey.id),
+                                                            });
+                                                        } else if (result.isDenied) {
+                                                            Swal.fire('Journey are not saved', '', 'info')
+                                                        }
+                                                    })
+                                                }}><FaBookmark /></span>
+                                            ) : (
+                                                <span className='pe-1 ms-auto cursor-pointer' onClick={(e) => {
+                                                    Swal.fire({
+                                                        title: 'Do you want to save this journey?',
+                                                        showDenyButton: true,
+                                                        confirmButtonText: 'Save',
+                                                        denyButtonText: `Don't save`,
+                                                    }).then((result) => {
+                                                        /* Read more about isConfirmed, isDenied below */
+                                                        if (result.isConfirmed) {
+                                                            Swal.fire({
+                                                                icon: "success",
+                                                                title: "Success!",
+                                                                showConfirmButton: true,
+                                                                onClick: handleOnBookmark(e, journey.id),
+                                                            });
+                                                        } else if (result.isDenied) {
+                                                            Swal.fire('Journey are not saved', '', 'info')
+                                                        }
+                                                    })
+                                                }}><FaRegBookmark /></span>
+                                            )}
                                         </div>
                                     ) : (
                                         <div className='d-flex pb-3'>
@@ -123,10 +147,6 @@ function CardJourney() {
                                                     text: 'Anda Belum Login, Silahkan Login!',
                                                 })
                                             }}><FaRegBookmark /></span>
-                                            {/* <Link to="/Bookmark">
-                                        </Link> */}
-                                            {/* <span className='pe-1'><FaHeart /></span>
-                                        <span><FaBookmark /></span> */}
                                         </div>
                                     )}
                                     <h6 className="card-title cursor-pointer" onClick={() => { navigate(`/DetailJourney/${journey?.id}`) }} key={index}>{journey?.title.slice(0, 20)} ...</h6>
@@ -138,8 +158,6 @@ function CardJourney() {
                                             "dddd, DD MMMM YYYY"
                                         )}
                                     </p>
-                                    {/* <div className='d-flex'>
-                                    </div> */}
                                     <p className="card-text cursor-pointer" onClick={() => { navigate(`/DetailJourney/${journey?.id}`) }} key={index}>{journey?.description.slice(0, 145)} ...</p>
                                 </div>
                             </div>
@@ -147,8 +165,9 @@ function CardJourney() {
                     )
                     )}
                 </div>
-            ) : (<div>Tidak ada data yang bisa ditampilkan</div>)}
-        </div>
+            ) : (<div>Tidak ada data yang bisa ditampilkan</div>)
+            }
+        </div >
     )
 }
 

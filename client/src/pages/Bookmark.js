@@ -34,7 +34,7 @@ function Bookmark() {
     );
     console.log("ini isi bookmark : ", bookmarks)
 
-    const handleDelete = async (e, bookmarkId) => {
+    const handleDelete = async (e, bookmarkId, journeyID) => {
         e.preventDefault();
         try {
             console.log("mau delete yg ini ygy", state.user.id);
@@ -47,7 +47,10 @@ function Bookmark() {
             console.log("mau cek data", bookmarkId, state.user.id);
 
             const response = await API.delete(`/bookmark/${bookmarkId}`, config);
-            console.log("ini response delete ygy", response);
+            const response2 = await API.patch('/journey/' + journeyID, {
+                "books": "false"
+            })
+            console.log("ini response delete ygy", response2);
             yukRefetch();
             navigate('/Bookmark')
         } catch (error) {
@@ -104,7 +107,7 @@ function Bookmark() {
                                                                 icon: "success",
                                                                 title: "Delete Success!",
                                                                 showConfirmButton: true,
-                                                                onClick: handleDelete(e, bookmark.id),
+                                                                onClick: handleDelete(e, bookmark.id, bookmark.journey_id),
                                                             });
                                                         } else if (result.isDenied) {
                                                             Swal.fire('Journey are not delete', '', 'info')

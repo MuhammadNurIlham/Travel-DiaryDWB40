@@ -12,6 +12,7 @@ type JourneyRepository interface {
 	// GetJourney(ID int) (models.Journey, error)
 	// GetJourneyUser(UserID int) ([]models.Journey, error)
 	CreateJourney(journey models.Journey) (models.Journey, error)
+	UpdateJourney(journey models.Journey) (models.Journey, error)
 	DeleteJourney(journey models.Journey) (models.Journey, error)
 }
 

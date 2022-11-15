@@ -17,4 +17,6 @@ func BookmarkRoutes(r *mux.Router) {
 	r.HandleFunc("/bookmark/{id}", h.GetBookmark).Methods("GET") //select
 	r.HandleFunc("/bookmark", middleware.Auth(h.CreateBookmark)).Methods("POST") //all
 	r.HandleFunc("/bookmark/{id}", middleware.Auth(h.DeleteBookmark)).Methods("DELETE") //delete select
+	r.HandleFunc("/bookmarks/{id}", middleware.Auth(h.DeleteBookmarks)).Methods("DELETE") //delete select
+	r.HandleFunc("/bookmarks/{id}", h.GetBookmarks).Methods("GET") //select
 }

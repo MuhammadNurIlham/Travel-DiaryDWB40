@@ -128,3 +128,48 @@ func convertResponseBookmark(u models.Bookmark) models.Bookmark {
 		CreatedAt: u.CreatedAt,
 	}
 }
+
+func (h *handlerBookmark) GetBookmarks(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	id, _ := strconv.Atoi(mux.Vars(r)["id"])
+
+	var bookmarks models.Bookmark
+
+	bookmarks, err := h.BookmarkRepository.GetBookmarks(id)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	response := dto.SuccessResult{Code: http.StatusOK, Data: bookmarks}
+	json.NewEncoder(w).Encode(response)
+}
+
+func (h *handlerBookmark) DeleteBookmarks(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	id, _ := strconv.Atoi(mux.Vars(r)["id"])
+	bookmark, err := h.BookmarkRepository.GetBookmarks(id)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	data, err := h.BookmarkRepository.DeleteBookmark(bookmark)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	response := dto.SuccessResult{Code: http.StatusOK, Data: convertResponseBookmark(data)}
+	json.NewEncoder(w).Encode(response)
+}

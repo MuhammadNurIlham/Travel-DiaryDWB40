@@ -12,6 +12,9 @@ type BookmarkRepository interface {
 	CreateBookmark(Bookmark models.Bookmark) (models.Bookmark, error)
 	UpdateBookmark(Bookmark models.Bookmark) (models.Bookmark, error)
 	DeleteBookmark(Bookmark models.Bookmark) (models.Bookmark, error)
+	GetBookmarks(ID int) (models.Bookmark, error)
+
+	DeleteBookmarks(bookmark models.Bookmark) (models.Bookmark, error)
 }
 
 func RepositoryBookmark(db *gorm.DB) *repository {
@@ -43,6 +46,18 @@ func (r *repository) UpdateBookmark(bookmark models.Bookmark) (models.Bookmark, 
 }
 
 func (r *repository) DeleteBookmark(bookmark models.Bookmark) (models.Bookmark, error) {
+	err := r.db.Preload("User").Preload("Journey.User").Delete(&bookmark).Error
+	return bookmark, err
+}
+
+func (r *repository) GetBookmarks(ID int) (models.Bookmark, error) {
+	var bookmark models.Bookmark
+	err := r.db.Where("journey_id=?", ID).Find(&bookmark).Error
+
+	return bookmark, err
+}
+
+func (r *repository) DeleteBookmarks(bookmark models.Bookmark) (models.Bookmark, error) {
 	err := r.db.Preload("User").Preload("Journey.User").Delete(&bookmark).Error
 	return bookmark, err
 }

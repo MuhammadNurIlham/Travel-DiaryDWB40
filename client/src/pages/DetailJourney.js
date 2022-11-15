@@ -34,8 +34,7 @@ function DetailJourney() {
                 <div className='row pb-5'>
                     <div className='d-flex align-items-start'>
                         <h6 className='fw-bold text-info'>
-                            {/* {moment(journey.created_at).format("dddd, DD MMMM YYYY")} */}
-                            12 November 2022
+                            {moment(journey?.created_at).format("dddd, DD MMMM YYYY")}
                         </h6>
                     </div>
                 </div>
