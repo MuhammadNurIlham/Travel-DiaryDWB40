@@ -15,8 +15,8 @@ import Editor from './components/Editor';
 import Bookmark from "./pages/Bookmark";
 import Home from "./pages/Home";
 import PrivateRoute from "./pages/PrivateRoute";
-import NavbarAfterLogin from "./components/NavbarAfterLogin";
-import NavigationBar from "./components/Navbar";
+// import NavbarAfterLogin from "./components/NavbarAfterLogin";
+// import NavigationBar from "./components/Navbar";
 
 function App() {
   let navigate = useNavigate();
