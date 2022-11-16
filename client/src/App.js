@@ -15,6 +15,7 @@ import Editor from './components/Editor';
 import Bookmark from "./pages/Bookmark";
 import Home from "./pages/Home";
 import PrivateRoute from "./pages/PrivateRoute";
+import Loading from "./atoms/Loading";
 // import NavbarAfterLogin from "./components/NavbarAfterLogin";
 // import NavigationBar from "./components/Navbar";
 
@@ -67,19 +68,22 @@ function App() {
 
   return (
     <>
-      {isLoading ? (<div>Load Data from Database</div>) : (
-        <Routes>
-          <Route exact path="/" element={<LandingPage />} />
-          <Route exact path="/" element={<PrivateRoute />}>
-            <Route exact path="/Home" element={<Home />} />
-            <Route exact path="/Profile" element={<Profile />} />
-            <Route exact path="/DetailJourney/:id" element={<DetailJourney />} />
-            {/* <Route exact path="/DetailJourney" element={<DetailJourney />} /> */}
-            <Route exact path="/Bookmark" element={<Bookmark />} />
-            <Route exact path="/Editor" element={<Editor />} />
-          </Route>
-        </Routes>
-      )}
+      {isLoading ?
+        (
+          <Loading />
+        ) : (
+          <Routes>
+            <Route exact path="/" element={<LandingPage />} />
+            <Route exact path="/" element={<PrivateRoute />}>
+              <Route exact path="/Home" element={<Home />} />
+              <Route exact path="/Profile" element={<Profile />} />
+              <Route exact path="/DetailJourney/:id" element={<DetailJourney />} />
+              {/* <Route exact path="/DetailJourney" element={<DetailJourney />} /> */}
+              <Route exact path="/Bookmark" element={<Bookmark />} />
+              <Route exact path="/Editor" element={<Editor />} />
+            </Route>
+          </Routes>
+        )}
     </>
     // <div className="App">
     // </div>

@@ -6,8 +6,10 @@ import { UserContext } from '../context/UserContext';
 import Swal from 'sweetalert2';
 import moment from "moment"
 import { FaRegBookmark } from "react-icons/fa"
-import { FaRegHeart } from "react-icons/fa"
+import Blank from '../atoms/Blank';
+import Loading from '../atoms/Loading';
 import { FaBookmark } from "react-icons/fa"
+import { FaRegHeart } from "react-icons/fa"
 import { FaHeart } from "react-icons/fa"
 
 import image1 from '../assets/image1.png'
@@ -88,6 +90,7 @@ function CardJourney() {
                                     }}
                                 />
                                 <div className="card-body">
+                                    {/* ==== isLogin for bookmark ==== */}
                                     {isLogin ? (
                                         <div className='d-flex pb-3'>
                                             <p className="card-text fw-bold">{journey.user.name}</p>
@@ -158,14 +161,14 @@ function CardJourney() {
                                             "dddd, DD MMMM YYYY"
                                         )}
                                     </p>
-                                    <p className="card-text cursor-pointer" onClick={() => { navigate(`/DetailJourney/${journey?.id}`) }} key={index}>{journey?.description.slice(0, 145)} ...</p>
+                                    <p className="card-text cursor-pointer" onClick={() => { navigate(`/DetailJourney/${journey?.id}`) }} key={index}>{journey?.description.slice(0, 70)}... <span className='fw-bold text-primary'>Read more</span></p>
                                 </div>
                             </div>
                         </div>
                     )
                     )}
                 </div>
-            ) : (<div>Tidak ada data yang bisa ditampilkan</div>)
+            ) : (<Blank />)
             }
         </div >
     )

@@ -54,7 +54,9 @@ function Login({ show, setShow, setShowRegister }) {
             // console.log("ini response datanya", data);
         } catch (e) {
             console.log(e)
-            const alert = <Alert variang='danger'>Login Gagal</Alert>
+            const alert = <div className="alert alert-danger" role="alert">
+                Login Gagal!
+            </div>
             setMessage(alert)
         }
     });
@@ -99,7 +101,7 @@ function Login({ show, setShow, setShowRegister }) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer className='justify-content-center'>
-                    <p>Don't have an account ? Klik <span className='fw-bold pointer log-reg'
+                    <p>Don't have an account ? Klik <span className='fw-bold cursor-pointer log-reg'
                         onClick={() => {
                             setShow(false);
                             setShowRegister(true);

@@ -51,6 +51,17 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.input-button {
+  border: none;
+  border-radius: 8px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #FFFFFF;
+}
+.input-button:hover {
+  background-color: greenyellow;
+}
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;

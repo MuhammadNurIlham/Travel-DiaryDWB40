@@ -108,7 +108,7 @@ function Register({ show, setShow, setShowLogin }) {
                             />
                         </Form.Group>
                         <div className="d-grid gap-2">
-                            <input type={"submit"} value={"Register"} variant="dark" size="md" onClick={() => {
+                            <input className='input-button bg-primary' type={"submit"} value={"Register"} variant="dark" size="md" onClick={() => {
                                 setShow(false);
                                 setShowLogin(true);
                             }} />
@@ -116,7 +116,7 @@ function Register({ show, setShow, setShowLogin }) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer className='justify-content-center'>
-                    <p>Don't have an account ? Klik <span className='fw-bold pointer log-reg'
+                    <p>Don't have an account ? Klik <span className='fw-bold cursor-pointer log-reg'
                         onClick={() => {
                             setShow(false);
                             setShowLogin(true);
